@@ -1,0 +1,31 @@
+@startuml
+left to right direction
+
+actor "Usuário" as user
+
+rectangle "Booklog" {
+  usecase "Gerenciar Estante" as UC1
+  usecase "Gerenciar Perfil" as UC2
+  usecase "Buscar Livros" as UC3
+  usecase "Filtrar Livros" as UC4
+  usecase "Visualizar Detalhes do Livro" as UC5
+  usecase "Atualizar Status da Leitura" as UC6
+  usecase "Avaliar Livro" as UC7
+  usecase "Remover Livro da Estante" as UC8
+  usecase "Visualizar Estatísticas" as UC9
+  usecase "Manter Listas" as UC10
+}
+
+user --> UC1
+user --> UC2
+user --> UC3
+user --> UC5
+user --> UC9
+user --> UC10
+
+UC6 .l.> UC5 : <<extend>>
+UC7 .l.> UC5 : <<extend>>
+UC8 .l.> UC5 : <<extend>>
+UC4 .l.> UC3 : <<extend>>
+
+@enduml
