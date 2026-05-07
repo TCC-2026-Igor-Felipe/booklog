@@ -1,0 +1,60 @@
+@startuml
+
+hide circle
+skinparam classAttributeIconSize 0
+
+class Usuario {
+  - id: String
+  - nome: String
+  - email: String
+  - fotoUrl: String
+  + atualizarPerfil(): void
+}
+
+class Livro {
+  - id: String
+  - titulo: String
+  - autor: String
+  - genero: String
+  - anoPublicacao: Integer
+  - totalPaginas: Integer
+  - capaUrl: String
+}
+
+class UsuarioLivro {
+  - id: String
+  - dataInicio: Date
+  - dataConclusao: Date
+  - paginasLidas: Integer
+  - notaAvaliacao: Integer
+  - resenhaTextual: String
+  - favorito: Boolean
+  + atualizarStatus(novoStatus: StatusLeitura): void
+  + registrarProgresso(paginas: Integer): void
+  + avaliarObra(nota: Integer, resenha: String): void
+  + alternarFavorito(): void
+}
+
+enum StatusLeitura {
+  QUERO_LER
+  LENDO
+  LIDO
+  ABANDONADO
+}
+
+class ListaPersonalizada {
+  - id: String
+  - titulo: String
+  - descricao: String
+  + adicionarLivro(livro: Livro): void
+  + removerLivro(livro: Livro): void
+  + reordenarLivro(indexAtual: Integer, novoIndex: Integer): void
+}
+
+' Relacionamentos
+Usuario "1" -- "0..*" UsuarioLivro : realiza >
+Livro "1" -- "0..*" UsuarioLivro : recebe <
+UsuarioLivro *-right- StatusLeitura
+Usuario "1" -- "0..*" ListaPersonalizada : gerencia >
+ListaPersonalizada "0..*" o-- "0..*" Livro : contem >
+@enduml
