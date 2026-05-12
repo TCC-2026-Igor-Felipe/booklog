@@ -1,0 +1,30 @@
+@startwbs
+skinparam monochrome true
+skinparam shadowing false
+
+* **App** (Componente Raiz)
+** **NavigationBar** (Menu de Navegação)
+** **Router** (Gestor de Rotas)
+*** **SearchView** (Tela de Busca)
+**** SearchBar (Input de Texto)
+**** FilterBar (Dropdowns: Gênero, Ano)
+**** BookCard (Resultados)
+*** **ShelfView** (Tela da Estante)
+**** BookCard (Obras Guardadas)
+***** StatusDropdown (Controle de Estado)
+*** **BookDetailsView** (Tela de Detalhes)
+**** BookInfo (Capa, Título, Autor)
+**** InteractionPanel (Ações do Usuário)
+***** StatusDropdown
+***** StarRating (Apenas se "Lido")
+***** ReviewEditor (Apenas se "Lido")
+*** **ProfileView** (Tela de Perfil)
+**** UserProfileHeader (Foto, Nome)
+**** BookCard (Favoritos - Máx 5)
+*** **StatisticsView** (Painel de Estatísticas)
+**** StatCard (Métricas de Leitura)
+**** GenrePieChart (Gráfico de Distribuição)
+*** **CustomListView** (Listas Temáticas)
+**** CreateListForm (Criar Nova)
+**** RankableListItem (Item com Reordenação)
+@endwbs
