@@ -18,4 +18,16 @@ describe('BookCard Component', () => {
         expect(tituloElement).toBeInTheDocument();
         expect(autorElement).toBeInTheDocument();
     });
+
+    it('deve renderizar a imagem da capa do livro', () => {
+        render(<BookCard livro={livroMock} />);
+        
+        const imagemElement = screen.getByRole('img');
+        
+        expect(imagemElement).toBeInTheDocument();
+        
+        expect(imagemElement).toHaveAttribute('src', 'https://via.placeholder.com/150');
+        
+        expect(imagemElement).toHaveAttribute('alt', `Capa do livro O Senhor dos Anéis`);
+    });
 });
