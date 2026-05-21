@@ -3,6 +3,10 @@ export default function BookCard({ livro }) {
 
   return (
     <div>
+      <img 
+        src={livro.capaUrl} 
+        alt={`Capa do livro ${livro.titulo}`} 
+      />
       <h2>{livro.titulo}</h2>
       <p>{livro.autor}</p>
     </div>
