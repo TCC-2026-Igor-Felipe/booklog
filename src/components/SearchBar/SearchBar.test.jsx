@@ -5,7 +5,7 @@ import SearchBar from './SearchBar';
 describe('SearchBar Component', () => {
     it('deve renderizar o input de busca na tela', () => {
         render(<SearchBar />);
-        const inputElement = screen.getByPlaceholderText('Buscar por título, autor ou ISBN...');
+        const inputElement = screen.getByPlaceholderText('Buscar por título ou autor...');
 
         expect(inputElement).toBeInTheDocument();
     });
@@ -15,7 +15,7 @@ describe('SearchBar Component', () => {
         
         render(<SearchBar onSearch={mockOnSearch} />);
         
-        const inputElement = screen.getByPlaceholderText('Buscar por título, autor ou ISBN...');
+        const inputElement = screen.getByPlaceholderText('Buscar por título ou autor...');
             
         fireEvent.change(inputElement, { target: { value: 'Tolkien' } });
         

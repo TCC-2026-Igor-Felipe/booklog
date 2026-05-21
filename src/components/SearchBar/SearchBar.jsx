@@ -3,7 +3,7 @@ export default function SearchBar({ onSearch }) {
     <div>
       <input 
         type="text" 
-        placeholder="Buscar por título, autor ou ISBN..." 
+        placeholder="Buscar por título ou autor..." 
         onChange={(evento) => onSearch(evento.target.value)}
       />
     </div>
