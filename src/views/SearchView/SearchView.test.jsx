@@ -59,4 +59,21 @@ describe('SearchView Component', () => {
 
         expect(screen.queryByText('Clean Code')).not.toBeInTheDocument();
     });
+
+    it('deve filtrar a lista de livros ao digitar o ano de publicação', () => {
+        const mockResultados = [
+            { titulo: '1984', autor: 'George Orwell', genero: 'Ficção', ano: 1949, capaUrl: 'https://placehold.co/625x1000' },
+            { titulo: 'Duna', autor: 'Frank Herbert', genero: 'Ficção', ano: 1965, capaUrl: 'https://placehold.co/625x1000' }
+        ];
+
+        render(<SearchView resultados={mockResultados} />);
+
+        const inputAno = screen.getByRole('spinbutton', { name: /ano/i });
+
+        fireEvent.change(inputAno, { target: { value: '1965' } });
+
+        expect(screen.getByText('Duna')).toBeInTheDocument();
+
+        expect(screen.queryByText('1984')).not.toBeInTheDocument();
+    });
 });
