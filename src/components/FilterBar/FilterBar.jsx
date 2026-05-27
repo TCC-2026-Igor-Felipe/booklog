@@ -1,7 +1,13 @@
 export default function FilterBar({ onFilterChange }) {
-  const handleChange = (evento) => {
+  const handleGeneroChange = (evento) => {
     if (onFilterChange) {
-      onFilterChange(evento.target.value);
+      onFilterChange('genero', evento.target.value);
+    }
+  };
+
+  const handleAnoChange = (evento) => {
+    if (onFilterChange) {
+      onFilterChange('ano', evento.target.value);
     }
   };
 
@@ -9,7 +15,7 @@ export default function FilterBar({ onFilterChange }) {
     <div className="filter-bar">
       <div>
         <label htmlFor="filtro-genero">Gênero:</label>
-        <select id="filtro-genero" onChange={handleChange}>
+        <select id="filtro-genero" onChange={handleGeneroChange}>
           <option value="">Todos os gêneros</option>
           <option value="Ficção">Ficção</option>
           <option value="Fantasia">Fantasia</option>
@@ -19,12 +25,12 @@ export default function FilterBar({ onFilterChange }) {
 
       <div>
         <label htmlFor="filtro-ano">Ano de Publicação:</label>
-        <select id="filtro-ano" onChange={handleChange}>
-          <option value="">Qualquer ano</option>
-          <option value="2026">2026</option>
-          <option value="2025">2025</option>
-          <option value="2024">2024 ou anterior</option>
-        </select>
+        <input 
+          type="number" 
+          id="filtro-ano" 
+          placeholder="Ex: 1984"
+          onChange={handleAnoChange} 
+        />
       </div>
     </div>
   );
