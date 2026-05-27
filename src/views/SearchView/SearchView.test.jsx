@@ -76,4 +76,18 @@ describe('SearchView Component', () => {
 
         expect(screen.queryByText('1984')).not.toBeInTheDocument();
     });
+
+    it('deve exibir mensagem de lista vazia quando nenhum livro corresponder à pesquisa', () => {
+        const mockResultados = [
+            { titulo: '1984', autor: 'George Orwell', genero: 'Ficção', ano: 1949, capaUrl: 'https://placehold.co/625x1000' }
+        ];
+
+        render(<SearchView resultados={mockResultados} />);
+
+        const searchInput = screen.getByPlaceholderText('Buscar por título ou autor...');
+
+        fireEvent.change(searchInput, { target: { value: 'LivroQueNaoExiste123' } });
+        
+        expect(screen.getByText('Nenhum livro encontrado com este termo')).toBeInTheDocument();
+    });
 });
