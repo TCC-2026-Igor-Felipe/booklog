@@ -20,10 +20,11 @@ export default function SearchView({ resultados = [] }) {
     const termo = termoBusca.toLowerCase();
     const titulo = livro.titulo.toLowerCase();
     const autor = livro.autor.toLowerCase();
+
     const passouNoTexto = titulo.includes(termo) || autor.includes(termo);
     const passouNoGenero = filtroGenero === '' || livro?.genero === filtroGenero;
     const passouNoAno = filtroAno === '' || String(livro?.ano).startsWith(String(filtroAno));
-    
+
     return passouNoTexto && passouNoGenero && passouNoAno;
   });
 
@@ -31,11 +32,15 @@ export default function SearchView({ resultados = [] }) {
     <main>
       <SearchBar onSearch={setTermoBusca} />
       <FilterBar onFilterChange={lidarComFiltro} />
-      
+
       <div className="resultados-lista">
-        {livrosFiltrados.map((livro, index) => (
-          <BookCard key={index} livro={livro} />
-        ))}
+        {livrosFiltrados.length > 0 ? (
+          livrosFiltrados.map((livro, index) => (
+            <BookCard key={index} livro={livro} />
+          ))
+        ) : (
+          <p className="mensagem-vazia">Nenhum livro encontrado com este termo</p>
+        )}
       </div>
     </main>
   );

@@ -6,7 +6,7 @@ describe('FilterBar Component', () => {
   it('deve renderizar o seletor de gênero e o campo de ano de publicação', () => {
     render(<FilterBar />);
 
-    const seletorGenero = screen.getByRole('combobox', { name: /gênero/i }); S
+    const seletorGenero = screen.getByRole('combobox', { name: /gênero/i });
     const inputAno = screen.getByRole('spinbutton', { name: /ano/i });
 
     expect(seletorGenero).toBeInTheDocument();
