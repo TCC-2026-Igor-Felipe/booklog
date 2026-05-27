@@ -6,7 +6,7 @@ describe('BookCard Component', () => {
     const livroMock = {
         titulo: 'O Senhor dos Anéis',
         autor: 'J.R.R. Tolkien',
-        capaUrl: 'https://via.placeholder.com/150'
+        capaUrl: 'https://placehold.co/625x1000'
     };
 
     it('deve renderizar o título e autor do livro na tela', () => {
@@ -26,7 +26,7 @@ describe('BookCard Component', () => {
         
         expect(imagemElement).toBeInTheDocument();
         
-        expect(imagemElement).toHaveAttribute('src', 'https://via.placeholder.com/150');
+        expect(imagemElement).toHaveAttribute('src', 'https://placehold.co/625x1000');
         
         expect(imagemElement).toHaveAttribute('alt', `Capa do livro O Senhor dos Anéis`);
     });

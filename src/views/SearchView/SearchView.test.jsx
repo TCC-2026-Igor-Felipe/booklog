@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import SearchView from './SearchView';
 
@@ -13,8 +13,8 @@ describe('SearchView Component', () => {
 
     it('deve renderizar BookCard quando houver resultados', () => {
         const mockResultados = [
-            { titulo: '1984', autor: 'George Orwell', capaUrl: 'https://via.placeholder.com/150' },
-            { titulo: 'Duna', autor: 'Frank Herbert', capaUrl: 'https://via.placeholder.com/150' }
+            { titulo: '1984', autor: 'George Orwell', capaUrl: 'https://placehold.co/625x1000' },
+            { titulo: 'Duna', autor: 'Frank Herbert', capaUrl: 'https://placehold.co/625x1000' }
         ];
 
         render(<SearchView resultados={mockResultados} />);
@@ -24,5 +24,22 @@ describe('SearchView Component', () => {
         
         expect(livro1).toBeInTheDocument();
         expect(livro2).toBeInTheDocument();
-        });  
+    });
+
+    it('deve filtrar a lista de livros ao digitar na barra de pesquisa', () => {
+        const mockResultados = [
+        { titulo: '1984', autor: 'George Orwell', capaUrl: 'https://placehold.co/625x1000' },
+        { titulo: 'Duna', autor: 'Frank Herbert', capaUrl: 'https://placehold.co/625x1000' }
+        ];
+
+        render(<SearchView resultados={mockResultados} />);
+        
+        const searchInput = screen.getByPlaceholderText('Buscar por título ou autor...');
+        
+        fireEvent.change(searchInput, { target: { value: '1984' } });
+        
+        expect(screen.getByText('1984')).toBeInTheDocument();
+        
+        expect(screen.queryByText('Duna')).not.toBeInTheDocument();
+    });
 });
