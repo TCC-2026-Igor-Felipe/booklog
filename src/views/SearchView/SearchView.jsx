@@ -1,12 +1,15 @@
-import { useState } from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import FilterBar from '../../components/FilterBar/FilterBar';
 import BookCard from '../../components/BookCard/BookCard';
+import useSearch from '../../hooks/useSearch/useSearch';
 
 export default function SearchView({ resultados = [] }) {
-  const [termoBusca, setTermoBusca] = useState('');
-  const [filtroGenero, setFiltroGenero] = useState('');
-  const [filtroAno, setFiltroAno] = useState('');
+  const {
+    setTermoBusca,
+    setFiltroGenero,
+    setFiltroAno,
+    livrosFiltrados
+  } = useSearch(resultados);
 
   const lidarComFiltro = (tipo, valor) => {
     if (tipo === 'genero') {
@@ -16,30 +19,18 @@ export default function SearchView({ resultados = [] }) {
     }
   };
 
-  const livrosFiltrados = resultados.filter((livro) => {
-    const termo = termoBusca.toLowerCase();
-    const titulo = livro.titulo.toLowerCase();
-    const autor = livro.autor.toLowerCase();
-
-    const passouNoTexto = titulo.includes(termo) || autor.includes(termo);
-    const passouNoGenero = filtroGenero === '' || livro?.genero === filtroGenero;
-    const passouNoAno = filtroAno === '' || String(livro?.ano).startsWith(String(filtroAno));
-
-    return passouNoTexto && passouNoGenero && passouNoAno;
-  });
-
   return (
     <main>
       <SearchBar onSearch={setTermoBusca} />
       <FilterBar onFilterChange={lidarComFiltro} />
-
+      
       <div className="resultados-lista">
         {livrosFiltrados.length > 0 ? (
           livrosFiltrados.map((livro, index) => (
             <BookCard key={index} livro={livro} />
           ))
         ) : (
-          <p className="mensagem-vazia">Nenhum livro encontrado com este termo</p>
+          <p className="mensagem-vazia">Nenhum livro encontrado com este termo.</p>
         )}
       </div>
     </main>

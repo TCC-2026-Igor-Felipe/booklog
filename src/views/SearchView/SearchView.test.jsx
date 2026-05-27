@@ -88,6 +88,6 @@ describe('SearchView Component', () => {
 
         fireEvent.change(searchInput, { target: { value: 'LivroQueNaoExiste123' } });
         
-        expect(screen.getByText('Nenhum livro encontrado com este termo')).toBeInTheDocument();
+        expect(screen.getByText('Nenhum livro encontrado com este termo.')).toBeInTheDocument();
     });
 });
