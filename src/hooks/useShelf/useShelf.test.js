@@ -53,4 +53,22 @@ describe('Hook: useShelf', () => {
         expect(estanteSalva).toHaveLength(1);
         expect(estanteSalva[0].statusLeitura).toBe('LENDO');
     });
+
+    it('deve remover um livro da estante e do localStorage', () => {
+        const { result } = renderHook(() => useShelf());
+        const livro = { titulo: 'O Senhor dos Anéis', autor: 'J.R.R. Tolkien' };
+
+        act(() => {
+            result.current.adicionarLivro(livro, 'LIDO');
+        });
+        expect(result.current.estante).toHaveLength(1);
+
+        act(() => {
+            result.current.removerLivro(livro.titulo);
+        });
+
+        expect(result.current.estante).toHaveLength(0);
+        const estanteSalva = JSON.parse(window.localStorage.getItem('booklog_estante'));
+        expect(estanteSalva).toHaveLength(0);
+    });
 });
