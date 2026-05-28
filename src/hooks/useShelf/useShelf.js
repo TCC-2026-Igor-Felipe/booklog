@@ -13,7 +13,6 @@ export default function useShelf() {
             );
 
             let novaEstante;
-
             if (indexLivroExistente >= 0) {
                 novaEstante = [...estanteAnterior];
                 novaEstante[indexLivroExistente] = {
@@ -26,13 +25,21 @@ export default function useShelf() {
             }
 
             window.localStorage.setItem('booklog_estante', JSON.stringify(novaEstante));
+            return novaEstante;
+        });
+    };
 
+    const removerLivro = (titulo) => {
+        setEstante((estanteAnterior) => {
+            const novaEstante = estanteAnterior.filter((item) => item.titulo !== titulo);
+            window.localStorage.setItem('booklog_estante', JSON.stringify(novaEstante));
             return novaEstante;
         });
     };
 
     return {
         estante,
-        adicionarLivro
+        adicionarLivro,
+        removerLivro
     };
 }
