@@ -31,4 +31,26 @@ describe('Hook: useShelf', () => {
         expect(estanteSalva).toHaveLength(1);
         expect(estanteSalva[0].statusLeitura).toBe('QUERO_LER');
     });
+
+    it('deve atualizar o status do livro se ele já existir na estante, sem duplicar', () => {
+        const { result } = renderHook(() => useShelf());
+
+        const livro = { titulo: 'Duna', autor: 'Frank Herbert' };
+
+        act(() => {
+            result.current.adicionarLivro(livro, 'QUERO_LER');
+        });
+
+        act(() => {
+            result.current.adicionarLivro(livro, 'LENDO');
+        });
+
+        expect(result.current.estante).toHaveLength(1);
+
+        expect(result.current.estante[0].statusLeitura).toBe('LENDO');
+
+        const estanteSalva = JSON.parse(window.localStorage.getItem('booklog_estante'));
+        expect(estanteSalva).toHaveLength(1);
+        expect(estanteSalva[0].statusLeitura).toBe('LENDO');
+    });
 });
