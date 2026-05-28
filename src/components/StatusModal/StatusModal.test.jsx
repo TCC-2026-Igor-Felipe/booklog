@@ -35,4 +35,25 @@ describe('Componente: StatusModal', () => {
         expect(mockOnSave).toHaveBeenCalledWith('LENDO');
         expect(mockOnClose).toHaveBeenCalled();
     });
+
+    it('deve exibir o botão de excluir e chamar onDelete se o livro já estiver na estante', () => {
+        const mockOnDelete = vi.fn();
+        const livroSalvo = { titulo: '1984', statusLeitura: 'LENDO' };
+
+        render(
+            <StatusModal
+                livro={livroSalvo}
+                isOpen={true}
+                onClose={vi.fn()}
+                onSave={vi.fn()}
+                onDelete={mockOnDelete}
+            />
+        );
+
+        const botaoExcluir = screen.getByRole('button', { name: '🗑' });
+        expect(botaoExcluir).toBeInTheDocument();
+
+        fireEvent.click(botaoExcluir);
+        expect(mockOnDelete).toHaveBeenCalled();
+    });
 });
