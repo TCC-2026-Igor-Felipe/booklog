@@ -5,12 +5,19 @@ import useShelf from '../../hooks/useShelf/useShelf';
 export default function BookCard({ livro }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { adicionarLivro } = useShelf();
+  const { estante, adicionarLivro, removerLivro } = useShelf();
 
-  const estaNaEstante = Boolean(livro.statusLeitura);
+  const livroNaEstante = estante.find((item) => item.titulo === livro.titulo);
+  const estaNaEstante = Boolean(livroNaEstante);
+
+  const livroParaOModal = livroNaEstante || livro;
 
   const handleSaveStatus = (statusEscolhido) => {
     adicionarLivro(livro, statusEscolhido);
+  };
+
+  const handleDelete = () => {
+    removerLivro(livro.titulo);
   };
 
   return (
@@ -27,10 +34,11 @@ export default function BookCard({ livro }) {
       </button>
 
       <StatusModal
-        livro={livro}
+        livro={livroParaOModal}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSave={handleSaveStatus}
+        onDelete={handleDelete}
       />
     </div>
   );
