@@ -1,14 +1,18 @@
 export default function BookCard({ livro }) {
-  if (!livro) return null;
+  const estaNaEstante = Boolean(livro.statusLeitura);
 
   return (
-    <div>
-      <img 
-        src={livro.capaUrl} 
-        alt={`Capa do livro ${livro.titulo}`} 
-      />
-      <h2>{livro.titulo}</h2>
-      <p>{livro.autor}</p>
+    <div className="book-card">
+      <img src={livro.capaUrl} alt={`Capa do livro ${livro.titulo}`} />
+      <div className="book-info">
+        <h3>{livro.titulo}</h3>
+        <p>{livro.autor}</p>
+        <p>{livro.genero} - {livro.ano}</p>
+      </div>
+      
+      <button className="status-button">
+        {estaNaEstante ? '...' : '+'}
+      </button>
     </div>
   );
 }
