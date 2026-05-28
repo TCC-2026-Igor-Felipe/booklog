@@ -7,10 +7,23 @@ export default function useShelf() {
     });
 
     const adicionarLivro = (livro, statusLeitura) => {
-        const novoLivroComStatus = { ...livro, statusLeitura };
-
         setEstante((estanteAnterior) => {
-            const novaEstante = [...estanteAnterior, novoLivroComStatus];
+            const indexLivroExistente = estanteAnterior.findIndex(
+                (item) => item.titulo === livro.titulo
+            );
+
+            let novaEstante;
+
+            if (indexLivroExistente >= 0) {
+                novaEstante = [...estanteAnterior];
+                novaEstante[indexLivroExistente] = {
+                    ...novaEstante[indexLivroExistente],
+                    statusLeitura,
+                };
+            } else {
+                const novoLivroComStatus = { ...livro, statusLeitura };
+                novaEstante = [...estanteAnterior, novoLivroComStatus];
+            }
 
             window.localStorage.setItem('booklog_estante', JSON.stringify(novaEstante));
 
