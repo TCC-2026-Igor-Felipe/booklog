@@ -1,7 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export default function StatusModal({ livro, isOpen, onClose, onSave }) {
-    const [status, setStatus] = useState(livro?.statusLeitura || 'QUERO_LER');
+export default function StatusModal({ livro, isOpen, onClose, onSave, onDelete }) {
+    const [status, setStatus] = useState('QUERO_LER');
+
+    useEffect(() => {
+        if (livro?.statusLeitura) {
+            setStatus(livro.statusLeitura);
+        } else {
+            setStatus('QUERO_LER');
+        }
+    }, [livro, isOpen]);
 
     if (!isOpen) return null;
 
@@ -9,6 +17,15 @@ export default function StatusModal({ livro, isOpen, onClose, onSave }) {
         onSave(status);
         onClose();
     };
+
+    const handleDecreaseOrDelete = () => {
+        if (onDelete) {
+            onDelete();
+        }
+        onClose();
+    };
+
+    const estaNaEstante = Boolean(livro?.statusLeitura);
 
     return (
         <div className="modal-overlay" style={{ border: '1px solid black', padding: '20px', margin: '10px 0', backgroundColor: '#f9f9f9' }}>
@@ -30,9 +47,19 @@ export default function StatusModal({ livro, isOpen, onClose, onSave }) {
                     </select>
                 </div>
 
-                <div className="modal-actions" style={{ marginTop: '15px', display: 'flex', gap: '10px' }}>
+                <div className="modal-actions" style={{ marginTop: '15px', display: 'flex', gap: '10px', alignItems: 'center' }}>
                     <button onClick={onClose}>Cancelar</button>
                     <button onClick={handleSave}>Salvar</button>
+
+                    {estaNaEstante && (
+                        <button
+                            onClick={handleDecreaseOrDelete}
+                            style={{ marginLeft: 'auto', cursor: 'pointer', backgroundColor: '#ffcccc' }}
+                            title="Excluir da estante"
+                        >
+                            🗑
+                        </button>
+                    )}
                 </div>
             </div>
         </div>
