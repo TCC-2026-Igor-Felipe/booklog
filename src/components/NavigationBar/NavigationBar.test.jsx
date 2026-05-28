@@ -10,17 +10,17 @@ describe('Componente: NavigationBar', () => {
         <NavigationBar />
       </BrowserRouter>
     );
-    
+
     const linkPesquisa = screen.getByRole('link', { name: /pesquisa/i });
     const linkEstante = screen.getByRole('link', { name: /minha estante/i });
     const linkPerfil = screen.getByRole('link', { name: /perfil/i });
-    
+
     expect(linkPesquisa).toBeInTheDocument();
     expect(linkPesquisa).toHaveAttribute('href', '/');
-    
+
     expect(linkEstante).toBeInTheDocument();
     expect(linkEstante).toHaveAttribute('href', '/estante');
-    
+
     expect(linkPerfil).toBeInTheDocument();
     expect(linkPerfil).toHaveAttribute('href', '/perfil');
   });
