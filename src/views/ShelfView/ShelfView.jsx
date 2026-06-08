@@ -1,5 +1,6 @@
 import BookCard from '../../components/BookCard/BookCard';
 import useShelf from '../../hooks/useShelf/useShelf';
+import './ShelfView.css';
 
 export default function ShelfView({ livrosGuardados }) {
   const { estante } = useShelf();

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import StatusModal from '../StatusModal/StatusModal';
 import useShelf from '../../hooks/useShelf/useShelf';
+import './BookCard.css';
 
 export default function BookCard({ livro }) {
   const [isModalOpen, setIsModalOpen] = useState(false);

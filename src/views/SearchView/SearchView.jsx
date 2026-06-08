@@ -2,6 +2,7 @@ import SearchBar from '../../components/SearchBar/SearchBar';
 import FilterBar from '../../components/FilterBar/FilterBar';
 import BookCard from '../../components/BookCard/BookCard';
 import useSearch from '../../hooks/useSearch/useSearch';
+import './SearchView.css';
 
 export default function SearchView({ resultados = [] }) {
   const {

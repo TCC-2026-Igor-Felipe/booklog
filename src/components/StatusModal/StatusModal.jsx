@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import './StatusModal.css';
 
 export default function StatusModal({ livro, isOpen, onClose, onSave, onDelete }) {
     const [status, setStatus] = useState('QUERO_LER');
@@ -28,12 +29,12 @@ export default function StatusModal({ livro, isOpen, onClose, onSave, onDelete }
     const estaNaEstante = Boolean(livro?.statusLeitura);
 
     return (
-        <div className="modal-overlay" style={{ border: '1px solid black', padding: '20px', margin: '10px 0', backgroundColor: '#f9f9f9' }}>
+        <div className="modal-overlay">
             <div className="modal-content">
                 <h3>Atualizar Estante</h3>
                 <p>Livro: <strong>{livro?.titulo}</strong></p>
 
-                <div>
+                <div className="modal-form-group">
                     <label htmlFor="status-select">Status de Leitura: </label>
                     <select
                         id="status-select"
@@ -47,16 +48,12 @@ export default function StatusModal({ livro, isOpen, onClose, onSave, onDelete }
                     </select>
                 </div>
 
-                <div className="modal-actions" style={{ marginTop: '15px', display: 'flex', gap: '10px', alignItems: 'center' }}>
-                    <button onClick={onClose}>Cancelar</button>
-                    <button onClick={handleSave}>Salvar</button>
+                <div className="modal-actions">
+                    <button className="btn-cancelar" onClick={onClose}>Cancelar</button>
+                    <button className="btn-salvar" onClick={handleSave}>Salvar</button>
 
                     {estaNaEstante && (
-                        <button
-                            onClick={handleDecreaseOrDelete}
-                            style={{ marginLeft: 'auto', cursor: 'pointer', backgroundColor: '#ffcccc' }}
-                            title="Excluir da estante"
-                        >
+                        <button className="btn-excluir" onClick={handleDecreaseOrDelete} title="Excluir da estante">
                             🗑
                         </button>
                     )}
