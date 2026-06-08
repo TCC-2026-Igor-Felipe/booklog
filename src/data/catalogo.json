@@ -4,69 +4,69 @@
     "autor": "J.R.R. Tolkien", 
     "genero": "Fantasia", 
     "ano": 1954, 
-    "capaUrl": "https://placehold.co/625x1000" 
+    "capaUrl": "https://m.media-amazon.com/images/I/71jLBXtWJWL.jpg" 
   },
   { 
     "titulo": "1984", 
     "autor": "George Orwell", 
     "genero": "Ficção", 
     "ano": 1949, 
-    "capaUrl": "https://placehold.co/625x1000" 
+    "capaUrl": "https://m.media-amazon.com/images/I/819js3EQwbL.jpg" 
   },
   { 
     "titulo": "Duna", 
     "autor": "Frank Herbert", 
     "genero": "Ficção", 
     "ano": 1965, 
-    "capaUrl": "https://placehold.co/625x1000" 
+    "capaUrl": "https://m.media-amazon.com/images/I/81zN7udGRUL.jpg" 
   },
   { 
     "titulo": "Clean Code", 
     "autor": "Robert C. Martin", 
     "genero": "Tecnologia", 
     "ano": 2008, 
-    "capaUrl": "https://placehold.co/625x1000" 
+    "capaUrl": "https://m.media-amazon.com/images/I/71T7aD3EOTL.jpg" 
   },
   { 
     "titulo": "Neuromancer", 
     "autor": "William Gibson", 
     "genero": "Ficção", 
     "ano": 1984, 
-    "capaUrl": "https://placehold.co/625x1000" 
+    "capaUrl": "https://m.media-amazon.com/images/I/91Bx5ilP+EL._SY466_.jpg" 
   },
   { 
     "titulo": "O Hobbit", 
     "autor": "J.R.R. Tolkien", 
     "genero": "Fantasia", 
     "ano": 1937, 
-    "capaUrl": "https://placehold.co/625x1000" 
+    "capaUrl": "https://m.media-amazon.com/images/I/91M9xPIf10L.jpg" 
   },
   { 
     "titulo": "O Programador Pragmático", 
     "autor": "Andrew Hunt", 
     "genero": "Tecnologia", 
     "ano": 1999, 
-    "capaUrl": "https://placehold.co/625x1000" 
+    "capaUrl": "https://m.media-amazon.com/images/I/61hewOW+8zL._SY425_.jpg" 
   },
   { 
     "titulo": "Fundação", 
     "autor": "Isaac Asimov", 
     "genero": "Ficção", 
     "ano": 1951, 
-    "capaUrl": "https://placehold.co/625x1000" 
+    "capaUrl": "https://m.media-amazon.com/images/I/911oV6b8xrL._SY466_.jpg" 
   },
   { 
     "titulo": "Harry Potter e a Pedra Filosofal", 
     "autor": "J.K. Rowling", 
     "genero": "Fantasia", 
     "ano": 1997, 
-    "capaUrl": "https://placehold.co/625x1000" 
+    "capaUrl": "https://m.media-amazon.com/images/I/81ibfYk4qmL.jpg" 
   },
   { 
-    "titulo": "O Nome do Vento", 
-    "autor": "Patrick Rothfuss", 
-    "genero": "Fantasia", 
-    "ano": 2007, 
-    "capaUrl": "https://placehold.co/625x1000" 
+    "titulo": "Sidarta", 
+    "autor": "Herman Hesse", 
+    "genero": "Filosofia", 
+    "ano": 1922, 
+    "capaUrl": "https://m.media-amazon.com/images/I/91H2H+diRvL._SY466_.jpg" 
   }
 ]
