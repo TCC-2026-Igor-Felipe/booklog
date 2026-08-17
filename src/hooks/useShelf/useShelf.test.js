@@ -78,4 +78,25 @@ describe('Hook: useShelf', () => {
 
         expect(result.current.estante).toHaveLength(0);
     });
+
+    it('deve alternar o status de favorito de um livro existente na estante', () => {
+        const { result } = renderHook(() => useShelf());
+        const livro = { titulo: 'O Programador Pragmático', autor: 'Andrew Hunt' };
+
+        act(() => {
+            result.current.adicionarLivro(livro, { statusLeitura: 'LIDO' });
+        });
+
+        act(() => {
+            result.current.alternarFavorito(livro.titulo);
+        });
+
+        expect(result.current.estante[0].favorito).toBe(true);
+
+        act(() => {
+            result.current.alternarFavorito(livro.titulo);
+        });
+
+        expect(result.current.estante[0].favorito).toBe(false);
+    });
 });
