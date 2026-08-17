@@ -1,15 +1,14 @@
-/* src/index.css */
 :root {
   --bg-color: #14181c;
-  --surface-color: #212830; 
-  --text-main: #8c9baf; 
+  --surface-color: #212830;
+  --text-main: #8c9baf;
   --text-title: #ffffff;
   --accent-color: #00b0fa;
   --accent-hover: #008cc7;
   --danger-color: #ff4040;
   --border-color: #2c3440;
   --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  
+
   --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -32,9 +31,15 @@ main {
   padding: 40px 20px;
 }
 
-h2, h3 { color: var(--text-title); font-weight: 600; }
+h2,
+h3 {
+  color: var(--text-title);
+  font-weight: 600;
+}
 
-input[type="text"], input[type="number"], select {
+input[type="text"],
+input[type="number"],
+select {
   background-color: var(--surface-color);
   border: 1px solid var(--border-color);
   color: var(--text-title);
@@ -45,4 +50,7 @@ input[type="text"], input[type="number"], select {
   transition: border-color 0.2s;
 }
 
-input[type="text"]:focus, select:focus { border-color: var(--accent-color); }
+input[type="text"]:focus,
+select:focus {
+  border-color: var(--accent-color);
+}
