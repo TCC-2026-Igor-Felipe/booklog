@@ -10,7 +10,7 @@ describe('Componente: StatusModal', () => {
   beforeAll(() => {
     const cssPath = path.resolve(__dirname, './StatusModal.css');
     const cssContent = fs.readFileSync(cssPath, 'utf8');
-    
+
     const styleElement = document.createElement('style');
     styleElement.innerHTML = cssContent;
     document.head.appendChild(styleElement);
@@ -34,26 +34,65 @@ describe('Componente: StatusModal', () => {
     const mockOnClose = vi.fn();
 
     render(<StatusModal livro={mockLivro} isOpen={true} onClose={mockOnClose} onSave={mockOnSave} />);
-    
+
     const selectStatus = screen.getByRole('combobox');
     fireEvent.change(selectStatus, { target: { value: 'LENDO' } });
-    
+
     const botaoSalvar = screen.getByRole('button', { name: /salvar/i });
     fireEvent.click(botaoSalvar);
 
-    expect(mockOnSave).toHaveBeenCalledWith('LENDO');
-    expect(mockOnClose).toHaveBeenCalled();
+    expect(mockOnSave).toHaveBeenCalledWith({
+      statusLeitura: 'LENDO',
+      notaAvaliacao: null,
+      resenhaTextual: ''
+    });
   });
 
   it('deve aplicar as propriedades CSS estruturais corretas no overlay do modal', () => {
     render(<StatusModal livro={mockLivro} isOpen={true} onClose={vi.fn()} onSave={vi.fn()} />);
-    
+
     const overlay = document.querySelector('.modal-overlay');
-    
+
     const estilosComputados = window.getComputedStyle(overlay);
 
     expect(estilosComputados.position).toBe('fixed');
     expect(estilosComputados.display).toBe('flex');
     expect(estilosComputados.zIndex).toBe('1000');
+  });
+
+  it('deve exibir campos de nota e resenha apenas quando o status for "LIDO"', () => {
+    render(<StatusModal livro={mockLivro} isOpen={true} onClose={vi.fn()} onSave={vi.fn()} />);
+
+    expect(screen.queryByLabelText(/nota/i)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/resenha/i)).not.toBeInTheDocument();
+
+    const selectStatus = screen.getByRole('combobox');
+    fireEvent.change(selectStatus, { target: { value: 'LIDO' } });
+
+    expect(screen.getByLabelText(/nota/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/resenha/i)).toBeInTheDocument();
+  });
+
+  it('deve enviar a nota e a resenha ao salvar um livro como LIDO', () => {
+    const mockOnSave = vi.fn();
+    render(<StatusModal livro={mockLivro} isOpen={true} onClose={vi.fn()} onSave={mockOnSave} />);
+
+    const selectStatus = screen.getByRole('combobox');
+    fireEvent.change(selectStatus, { target: { value: 'LIDO' } });
+
+    const inputNota = screen.getByLabelText(/nota/i);
+    const inputResenha = screen.getByLabelText(/resenha/i);
+
+    fireEvent.change(inputNota, { target: { value: '5' } });
+    fireEvent.change(inputResenha, { target: { value: 'Obra prima!' } });
+
+    const botaoSalvar = screen.getByRole('button', { name: /salvar/i });
+    fireEvent.click(botaoSalvar);
+
+    expect(mockOnSave).toHaveBeenCalledWith({
+      statusLeitura: 'LIDO',
+      notaAvaliacao: 5,
+      resenhaTextual: 'Obra prima!'
+    });
   });
 });
