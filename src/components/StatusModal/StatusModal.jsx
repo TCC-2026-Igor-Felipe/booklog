@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './StatusModal.css';
+import StarRating from '../StarRating/StarRating';
 
 export default function StatusModal({ livro, isOpen, onClose, onSave, onDelete }) {
     const [status, setStatus] = useState('QUERO_LER');
@@ -21,7 +22,6 @@ export default function StatusModal({ livro, isOpen, onClose, onSave, onDelete }
     if (!isOpen) return null;
 
     const handleSave = () => {
-        // Envia o objeto completo conforme exigido pelos testes
         onSave({
             statusLeitura: status,
             notaAvaliacao: nota ? Number(nota) : null,
@@ -44,7 +44,7 @@ export default function StatusModal({ livro, isOpen, onClose, onSave, onDelete }
             <div className="modal-content">
                 <h3>Atualizar Estante</h3>
                 <p>Livro: <strong>{livro?.titulo}</strong></p>
-                
+
                 <div className="modal-form-group">
                     <label htmlFor="status-select">Status de Leitura: </label>
                     <select
@@ -59,19 +59,11 @@ export default function StatusModal({ livro, isOpen, onClose, onSave, onDelete }
                     </select>
                 </div>
 
-                {/* Renderização condicional dos novos campos */}
                 {status === 'LIDO' && (
                     <>
                         <div className="modal-form-group">
-                            <label htmlFor="nota-input">Nota (1 a 5): </label>
-                            <input
-                                id="nota-input"
-                                type="number"
-                                min="1"
-                                max="5"
-                                value={nota}
-                                onChange={(e) => setNota(e.target.value)}
-                            />
+                            <label>Avaliação: </label>
+                            <StarRating nota={nota} setNota={setNota} />
                         </div>
                         <div className="modal-form-group">
                             <label htmlFor="resenha-input">Resenha: </label>
