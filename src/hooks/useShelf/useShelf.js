@@ -40,12 +40,26 @@ export default function useShelf() {
 
     const alternarFavorito = (titulo) => {
         setEstante((estanteAnterior) => {
+            const livroAlvo = estanteAnterior.find((item) => item.titulo === titulo);
+
+            if (!livroAlvo) return estanteAnterior;
+
+            if (!livroAlvo.favorito) {
+                const totalFavoritos = estanteAnterior.filter((item) => item.favorito).length;
+                
+                if (totalFavoritos >= 5) {
+                    window.alert('Você pode ter no máximo 5 livros favoritos.');
+                    return estanteAnterior;
+                }
+            }
+
             const novaEstante = estanteAnterior.map((item) => {
                 if (item.titulo === titulo) {
                     return { ...item, favorito: !item.favorito };
                 }
                 return item;
             });
+            
             window.localStorage.setItem('booklog_estante', JSON.stringify(novaEstante));
             return novaEstante;
         });
