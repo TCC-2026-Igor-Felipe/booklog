@@ -6,21 +6,22 @@ export default function useShelf() {
         return estanteSalva ? JSON.parse(estanteSalva) : [];
     });
 
-    const adicionarLivro = (livro, statusLeitura) => {
+    const adicionarLivro = (livro, dadosAtualizacao) => {
         setEstante((estanteAnterior) => {
             const indexLivroExistente = estanteAnterior.findIndex(
                 (item) => item.titulo === livro.titulo
             );
 
             let novaEstante;
+
             if (indexLivroExistente >= 0) {
                 novaEstante = [...estanteAnterior];
                 novaEstante[indexLivroExistente] = {
                     ...novaEstante[indexLivroExistente],
-                    statusLeitura,
+                    ...dadosAtualizacao,
                 };
             } else {
-                const novoLivroComStatus = { ...livro, statusLeitura };
+                const novoLivroComStatus = { ...livro, ...dadosAtualizacao };
                 novaEstante = [...estanteAnterior, novoLivroComStatus];
             }
 
