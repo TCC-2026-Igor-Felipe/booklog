@@ -99,4 +99,37 @@ describe('Hook: useShelf', () => {
 
         expect(result.current.estante[0].favorito).toBe(false);
     });
+
+    it('não deve permitir favoritar mais de 5 livros', () => {
+        const { result } = renderHook(() => useShelf());
+
+        const alertMock = vi.spyOn(window, 'alert').mockImplementation(() => {});
+
+        for (let i = 1; i <= 6; i++) {
+            act(() => {
+                result.current.adicionarLivro(
+                    { titulo: `Livro ${i}`, autor: 'Autor Desconhecido' }, 
+                    { statusLeitura: 'LIDO' }
+                );
+            });
+        }
+
+        for (let i = 1; i <= 5; i++) {
+            act(() => {
+                result.current.alternarFavorito(`Livro ${i}`);
+            });
+        }
+
+        act(() => {
+            result.current.alternarFavorito('Livro 6');
+        });
+
+        const totalFavoritos = result.current.estante.filter(l => l.favorito).length;
+
+        expect(totalFavoritos).toBe(5);
+        expect(alertMock).toHaveBeenCalledWith('Você pode ter no máximo 5 livros favoritos.');
+        
+        // Limpa o mock após o teste
+        alertMock.mockRestore();
+    });
 });
