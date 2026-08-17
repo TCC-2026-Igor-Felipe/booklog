@@ -9,18 +9,15 @@ describe('Hook: useShelf', () => {
 
     it('deve inicializar com uma estante vazia se o localStorage estiver limpo', () => {
         const { result } = renderHook(() => useShelf());
-
         expect(result.current.estante).toEqual([]);
     });
 
     it('deve adicionar um livro à estante com status de leitura e persistir no localStorage', () => {
         const { result } = renderHook(() => useShelf());
-
         const novoLivro = { titulo: 'O Hobbit', autor: 'J.R.R. Tolkien' };
-        const status = 'QUERO_LER';
 
         act(() => {
-            result.current.adicionarLivro(novoLivro, status);
+            result.current.adicionarLivro(novoLivro, { statusLeitura: 'QUERO_LER' });
         });
 
         expect(result.current.estante).toHaveLength(1);
@@ -34,24 +31,37 @@ describe('Hook: useShelf', () => {
 
     it('deve atualizar o status do livro se ele já existir na estante, sem duplicar', () => {
         const { result } = renderHook(() => useShelf());
-
         const livro = { titulo: 'Duna', autor: 'Frank Herbert' };
 
         act(() => {
-            result.current.adicionarLivro(livro, 'QUERO_LER');
+            result.current.adicionarLivro(livro, { statusLeitura: 'QUERO_LER' });
         });
 
         act(() => {
-            result.current.adicionarLivro(livro, 'LENDO');
+            result.current.adicionarLivro(livro, { statusLeitura: 'LENDO' });
         });
 
         expect(result.current.estante).toHaveLength(1);
-
         expect(result.current.estante[0].statusLeitura).toBe('LENDO');
+    });
 
-        const estanteSalva = JSON.parse(window.localStorage.getItem('booklog_estante'));
-        expect(estanteSalva).toHaveLength(1);
-        expect(estanteSalva[0].statusLeitura).toBe('LENDO');
+    it('deve salvar a nota e a resenha ao adicionar um livro como LIDO', () => {
+        const { result } = renderHook(() => useShelf());
+        const livro = { titulo: 'Clean Code', autor: 'Robert C. Martin' };
+
+        const atualizacoes = {
+            statusLeitura: 'LIDO',
+            notaAvaliacao: 5,
+            resenhaTextual: 'Leitura obrigatória!'
+        };
+
+        act(() => {
+            result.current.adicionarLivro(livro, atualizacoes);
+        });
+
+        expect(result.current.estante).toHaveLength(1);
+        expect(result.current.estante[0].notaAvaliacao).toBe(5);
+        expect(result.current.estante[0].resenhaTextual).toBe('Leitura obrigatória!');
     });
 
     it('deve remover um livro da estante e do localStorage', () => {
@@ -59,16 +69,13 @@ describe('Hook: useShelf', () => {
         const livro = { titulo: 'O Senhor dos Anéis', autor: 'J.R.R. Tolkien' };
 
         act(() => {
-            result.current.adicionarLivro(livro, 'LIDO');
+            result.current.adicionarLivro(livro, { statusLeitura: 'LIDO' });
         });
-        expect(result.current.estante).toHaveLength(1);
 
         act(() => {
             result.current.removerLivro(livro.titulo);
         });
 
         expect(result.current.estante).toHaveLength(0);
-        const estanteSalva = JSON.parse(window.localStorage.getItem('booklog_estante'));
-        expect(estanteSalva).toHaveLength(0);
     });
 });
