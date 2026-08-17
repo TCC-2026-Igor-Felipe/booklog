@@ -38,9 +38,23 @@ export default function useShelf() {
         });
     };
 
+    const alternarFavorito = (titulo) => {
+        setEstante((estanteAnterior) => {
+            const novaEstante = estanteAnterior.map((item) => {
+                if (item.titulo === titulo) {
+                    return { ...item, favorito: !item.favorito };
+                }
+                return item;
+            });
+            window.localStorage.setItem('booklog_estante', JSON.stringify(novaEstante));
+            return novaEstante;
+        });
+    };
+
     return {
         estante,
         adicionarLivro,
-        removerLivro
+        removerLivro,
+        alternarFavorito
     };
 }
