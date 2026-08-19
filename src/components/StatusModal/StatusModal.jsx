@@ -6,6 +6,7 @@ export default function StatusModal({ livro, isOpen, onClose, onSave, onDelete }
     const [status, setStatus] = useState('QUERO_LER');
     const [nota, setNota] = useState('');
     const [resenha, setResenha] = useState('');
+    const [listaSelecionada, setListaSelecionada] = useState('');
 
     useEffect(() => {
         if (livro?.statusLeitura) {
@@ -35,6 +36,13 @@ export default function StatusModal({ livro, isOpen, onClose, onSave, onDelete }
             onDelete();
         }
         onClose();
+    };
+
+    const handleAddToList = () => {
+        if (listaSelecionada && onAddToList) {
+            onAddToList(listaSelecionada);
+            setListaSelecionada('');
+        }
     };
 
     const estaNaEstante = Boolean(livro?.statusLeitura);
@@ -75,6 +83,35 @@ export default function StatusModal({ livro, isOpen, onClose, onSave, onDelete }
                             />
                         </div>
                     </>
+                )}
+
+                {listas.length > 0 && (
+                    <div className="modal-form-group">
+                        <label htmlFor="lista-select">Adicionar à Lista: </label>
+                        <div style={{ display: 'flex', gap: '10px', marginTop: '8px', marginBottom: '20px' }}>
+                            <select
+                                id="lista-select"
+                                value={listaSelecionada}
+                                onChange={(e) => setListaSelecionada(e.target.value)}
+                                style={{ margin: 0 }}
+                            >
+                                <option value="">Selecione uma lista...</option>
+                                {listas.map((lista) => (
+                                    <option key={lista.id} value={lista.id}>
+                                        {lista.titulo}
+                                    </option>
+                                ))}
+                            </select>
+                            <button
+                                type="button"
+                                onClick={handleAddToList}
+                                title="Adicionar livro à lista"
+                                style={{ background: 'var(--accent-color)', color: '#fff', border: 'none', borderRadius: '6px', padding: '0 15px', cursor: 'pointer' }}
+                            >
+                                ➕
+                            </button>
+                        </div>
+                    </div>
                 )}
 
                 <div className="modal-actions">

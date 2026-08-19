@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import StatusModal from '../StatusModal/StatusModal';
 import useShelf from '../../hooks/useShelf/useShelf';
+import useCustomLists from '../../hooks/useCustomLists/useCustomLists';
 import './BookCard.css';
 
 export default function BookCard({ livro }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // Importamos a nova função alternarFavorito do hook
   const { estante, adicionarLivro, removerLivro, alternarFavorito } = useShelf();
+
+  const { listas, adicionarLivroNaLista } = useCustomLists();
 
   const livroNaEstante = estante.find((item) => item.titulo === livro.titulo);
   const estaNaEstante = Boolean(livroNaEstante);
@@ -20,10 +22,15 @@ export default function BookCard({ livro }) {
     removerLivro(livro.titulo);
   };
 
+  const handleAddToList = (idLista) => {
+    adicionarLivroNaLista(idLista, livro);
+    window.alert(`Livro adicionado à lista com sucesso!`);
+  };
+
   return (
     <div className="book-card">
       <img src={livro.capaUrl} alt={`Capa do livro ${livro.titulo}`} />
-      
+
       <div className="book-info">
         <h3>{livro.titulo}</h3>
         <p>{livro.autor}</p>
@@ -31,8 +38,8 @@ export default function BookCard({ livro }) {
       </div>
 
       {estaNaEstante && (
-        <button 
-          className="favorite-button" 
+        <button
+          className="favorite-button"
           onClick={() => alternarFavorito(livro.titulo)}
           title="Favoritar obra"
         >
@@ -50,6 +57,8 @@ export default function BookCard({ livro }) {
         onClose={() => setIsModalOpen(false)}
         onSave={handleSaveStatus}
         onDelete={handleDelete}
+        listas={listas}
+        onAddToList={handleAddToList}
       />
     </div>
   );
