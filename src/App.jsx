@@ -3,6 +3,7 @@ import NavigationBar from './components/NavigationBar/NavigationBar';
 import SearchView from './views/SearchView/SearchView';
 import ShelfView from './views/ShelfView/ShelfView';
 import ProfileView from './views/ProfileView/ProfileView';
+import StatisticsView from './views/StatisticsView/StatisticsView';
 import catalogo from './data/catalogo.json';
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/" element={<SearchView resultados={catalogo} />} />
         <Route path="/estante" element={<ShelfView />} />
         <Route path="/perfil" element={<ProfileView />} />
+        <Route path="/estatisticas" element={<StatisticsView />} />
       </Routes>
     </BrowserRouter>
   );

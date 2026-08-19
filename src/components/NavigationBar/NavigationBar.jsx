@@ -17,6 +17,9 @@ export default function NavigationBar() {
         <li>
           <Link to="/perfil">Perfil</Link>
         </li>
+        <li>
+          <Link to="/estatisticas">Estatísticas</Link>
+        </li>
       </ul>
     </nav>
   );
