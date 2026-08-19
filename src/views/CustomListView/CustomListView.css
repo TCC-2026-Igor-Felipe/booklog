@@ -1,0 +1,85 @@
+.custom-list-view {
+    padding: 20px;
+}
+
+.create-list-form {
+    background-color: var(--surface-color);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    box-shadow: var(--shadow);
+}
+
+.create-list-form .form-group {
+    flex: 1;
+    min-width: 250px;
+}
+
+.create-list-form input {
+    width: 100%;
+}
+
+.btn-criar {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+}
+
+.btn-criar:hover {
+    background-color: var(--accent-hover);
+}
+
+.lists-container {
+    display: grid;
+    gap: 20px;
+}
+
+.list-card {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.list-header h3 {
+    margin-bottom: 5px;
+    color: var(--accent-color);
+}
+
+.btn-excluir-lista {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn-excluir-lista:hover {
+    transform: scale(1.1);
+}
+
+.list-books p {
+    font-size: 14px;
+    color: var(--text-main);
+}

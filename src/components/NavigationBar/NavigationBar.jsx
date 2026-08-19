@@ -20,6 +20,9 @@ export default function NavigationBar() {
         <li>
           <Link to="/estatisticas">Estatísticas</Link>
         </li>
+        <li>
+          <Link to="/listas">Listas</Link>
+        </li>
       </ul>
     </nav>
   );

@@ -4,6 +4,7 @@ import SearchView from './views/SearchView/SearchView';
 import ShelfView from './views/ShelfView/ShelfView';
 import ProfileView from './views/ProfileView/ProfileView';
 import StatisticsView from './views/StatisticsView/StatisticsView';
+import CustomListView from './views/CustomListView/CustomListView';
 import catalogo from './data/catalogo.json';
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/estante" element={<ShelfView />} />
         <Route path="/perfil" element={<ProfileView />} />
         <Route path="/estatisticas" element={<StatisticsView />} />
+        <Route path="/listas" element={<CustomListView />} />
       </Routes>
     </BrowserRouter>
   );
