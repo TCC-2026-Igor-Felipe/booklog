@@ -69,4 +69,28 @@ describe('Componente: StatusModal', () => {
       resenhaTextual: 'Obra prima!'
     });
   });
+
+  it('deve exibir um seletor de listas e chamar onAddToList ao clicar em adicionar', () => {
+    const mockOnAddToList = vi.fn();
+    const mockListas = [{ id: '1', titulo: 'Ficção Científica' }];
+
+    render(
+      <StatusModal
+        livro={mockLivro}
+        isOpen={true}
+        onClose={vi.fn()}
+        onSave={vi.fn()}
+        listas={mockListas}
+        onAddToList={mockOnAddToList}
+      />
+    );
+
+    const selectListas = screen.getByLabelText(/Adicionar à Lista:/i);
+    fireEvent.change(selectListas, { target: { value: '1' } });
+
+    const botaoAddLista = screen.getByRole('button', { name: /➕/i });
+    fireEvent.click(botaoAddLista);
+
+    expect(mockOnAddToList).toHaveBeenCalledWith('1');
+  });
 });
