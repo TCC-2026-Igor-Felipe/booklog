@@ -2,6 +2,10 @@
     padding: 20px;
 }
 
+.custom-list-view h2 {
+    margin-bottom: 25px;
+}
+
 .create-list-form {
     background-color: var(--surface-color);
     padding: 20px;

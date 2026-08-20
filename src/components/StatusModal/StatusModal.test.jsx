@@ -88,7 +88,7 @@ describe('Componente: StatusModal', () => {
     const selectListas = screen.getByLabelText(/Adicionar à Lista:/i);
     fireEvent.change(selectListas, { target: { value: '1' } });
 
-    const botaoAddLista = screen.getByRole('button', { name: /➕/i });
+    const botaoAddLista = screen.getByRole('button', { name: '+' });
     fireEvent.click(botaoAddLista);
 
     expect(mockOnAddToList).toHaveBeenCalledWith('1');

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import './StatusModal.css';
 import StarRating from '../StarRating/StarRating';
 
-export default function StatusModal({ livro, isOpen, onClose, onSave, onDelete }) {
+export default function StatusModal({ livro, isOpen, onClose, onSave, onDelete, listas = [], onAddToList }) {
     const [status, setStatus] = useState('QUERO_LER');
     const [nota, setNota] = useState('');
     const [resenha, setResenha] = useState('');
@@ -108,7 +108,7 @@ export default function StatusModal({ livro, isOpen, onClose, onSave, onDelete }
                                 title="Adicionar livro à lista"
                                 style={{ background: 'var(--accent-color)', color: '#fff', border: 'none', borderRadius: '6px', padding: '0 15px', cursor: 'pointer' }}
                             >
-                                ➕
+                                +
                             </button>
                         </div>
                     </div>
