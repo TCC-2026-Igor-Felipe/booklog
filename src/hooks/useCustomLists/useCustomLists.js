@@ -52,11 +52,22 @@ export default function useCustomLists() {
         salvarListas(novasListas);
     };
 
+    const atualizarLivrosDaLista = (idLista, novosLivros) => {
+        const novasListas = listas.map((lista) => {
+            if (lista.id === idLista) {
+                return { ...lista, livros: novosLivros };
+            }
+            return lista;
+        });
+        salvarListas(novasListas);
+    };
+
     return {
         listas,
         criarLista,
         adicionarLivroNaLista,
         removerLivroDaLista,
-        removerLista
+        removerLista,
+        atualizarLivrosDaLista,
     };
 }
