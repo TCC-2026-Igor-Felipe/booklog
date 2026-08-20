@@ -80,4 +80,24 @@ describe('Hook: useCustomLists', () => {
 
         expect(result.current.listas).toHaveLength(0);
     });
+
+    it('deve atualizar toda a lista de livros de uma vez ao salvar a reordenação', () => {
+        const { result } = renderHook(() => useCustomLists());
+        act(() => { result.current.criarLista('Minha Lista', 'Desc'); });
+        const idLista = result.current.listas[0].id;
+        
+        act(() => {
+            result.current.adicionarLivroNaLista(idLista, { titulo: 'Livro A' });
+            result.current.adicionarLivroNaLista(idLista, { titulo: 'Livro B' });
+        });
+
+        const novaOrdem = [{ titulo: 'Livro B' }, { titulo: 'Livro A' }];
+        act(() => {
+            result.current.atualizarLivrosDaLista(idLista, novaOrdem);
+        });
+
+        const livros = result.current.listas[0].livros;
+        expect(livros[0].titulo).toBe('Livro B');
+        expect(livros[1].titulo).toBe('Livro A');
+    });
 });
