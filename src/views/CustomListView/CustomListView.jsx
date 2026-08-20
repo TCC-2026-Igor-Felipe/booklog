@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import useCustomLists from '../../hooks/useCustomLists/useCustomLists';
 import './CustomListView.css';
 
@@ -19,7 +20,7 @@ export default function CustomListView() {
 
     return (
         <main className="custom-list-view">
-            <h2>Minhas Listas Temáticas</h2>
+            <h2>Minhas Listas</h2>
 
             <form className="create-list-form" onSubmit={handleSubmit}>
                 <div className="form-group">
@@ -48,7 +49,11 @@ export default function CustomListView() {
                         <div key={lista.id} className="list-card">
                             <div className="list-header">
                                 <div>
-                                    <h3>{lista.titulo}</h3>
+                                    <h3>
+                                        <Link to={`/listas/${lista.id}`} style={{ color: 'var(--accent-color)', textDecoration: 'none' }}>
+                                            {lista.titulo}
+                                        </Link>
+                                    </h3>
                                     <p>{lista.descricao}</p>
                                 </div>
                                 <button
