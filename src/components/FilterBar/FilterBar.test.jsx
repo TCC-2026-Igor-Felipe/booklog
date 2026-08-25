@@ -28,4 +28,16 @@ describe('FilterBar Component', () => {
 
     expect(mockOnFilterChange).toHaveBeenCalledWith('ano', '1984');
   });
+
+  it('não deve quebrar se as mudanças ocorrerem e a função onFilterChange não for fornecida', () => {
+    render(<FilterBar />);
+    
+    const seletorGenero = screen.getByRole('combobox', { name: /gênero/i });
+    const inputAno = screen.getByRole('spinbutton', { name: /ano/i });
+    
+    expect(() => {
+      fireEvent.change(seletorGenero, { target: { value: 'Ficção' } });
+      fireEvent.change(inputAno, { target: { value: '2020' } });
+    }).not.toThrow();
+  });
 });

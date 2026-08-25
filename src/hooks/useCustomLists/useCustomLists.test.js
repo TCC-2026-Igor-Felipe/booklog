@@ -100,4 +100,48 @@ describe('Hook: useCustomLists', () => {
         expect(livros[0].titulo).toBe('Livro B');
         expect(livros[1].titulo).toBe('Livro A');
     });
+
+    it('não deve adicionar um livro duplicado na mesma lista', () => {
+        const { result } = renderHook(() => useCustomLists());
+        act(() => { result.current.criarLista('Lista Única', 'Desc'); });
+        
+        const idLista = result.current.listas[0].id;
+        const mockLivro = { titulo: '1984', autor: 'George Orwell' };
+
+        act(() => { result.current.adicionarLivroNaLista(idLista, mockLivro); });
+        act(() => { result.current.adicionarLivroNaLista(idLista, mockLivro); });
+
+        expect(result.current.listas[0].livros).toHaveLength(1);
+    });
+
+    it('não deve alterar outras listas ao modificar uma lista específica', async () => {
+        const { result } = renderHook(() => useCustomLists());
+        
+        act(() => { 
+            result.current.criarLista('Lista Alvo', 'Modificada'); 
+        });
+
+        await new Promise((resolve) => setTimeout(resolve, 10));
+        
+        act(() => { 
+            result.current.criarLista('Lista Intocável', 'Não deve mudar'); 
+        });
+        
+        const idAlvo = result.current.listas[0].id;
+        const mockLivro = { titulo: 'Duna' };
+
+        act(() => { result.current.adicionarLivroNaLista(idAlvo, mockLivro); });
+        act(() => { result.current.removerLivroDaLista(idAlvo, 'Duna'); });
+        act(() => { result.current.atualizarLivrosDaLista(idAlvo, [mockLivro]); });
+
+        expect(result.current.listas[1].livros).toHaveLength(0);
+        expect(result.current.listas[1].titulo).toBe('Lista Intocável');
+    });
+
+    it('deve carregar as listas do localStorage ao inicializar', () => {
+        window.localStorage.setItem('booklog_listas', JSON.stringify([{ id: '1', titulo: 'Minha Lista', livros: [] }]));
+        const { result } = renderHook(() => useCustomLists());
+        expect(result.current.listas).toHaveLength(1);
+        expect(result.current.listas[0].titulo).toBe('Minha Lista');
+    });
 });

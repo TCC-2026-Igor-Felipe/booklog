@@ -50,4 +50,22 @@ describe('Hook: useSearch', () => {
         expect(result.current.livrosFiltrados).toHaveLength(1);
         expect(result.current.livrosFiltrados[0].titulo).toBe('Duna');
     });
+
+    it('deve lidar com obras do catálogo que não possuem atributos definidos', () => {
+        const catalogoIncompleto = [{}];
+        const { result } = renderHook(() => useSearch(catalogoIncompleto));
+        
+        act(() => { result.current.setTermoBusca('fantasia'); });
+
+        expect(result.current.livrosFiltrados).toHaveLength(0);
+    });
+
+    it('deve retornar vazio ao filtrar por ano em um livro sem ano definido', () => {
+        const catalogoIncompleto = [{ titulo: 'Mistério Sem Data' }];
+        const { result } = renderHook(() => useSearch(catalogoIncompleto));
+        
+        act(() => { result.current.setFiltroAno('2020'); });
+        
+        expect(result.current.livrosFiltrados).toHaveLength(0);
+    });
 });

@@ -29,4 +29,11 @@ describe('View: StatisticsView', () => {
 
         expect(screen.getByText('Média de Notas: 4.5')).toBeInTheDocument();
     });
+
+    it('deve exibir "N/A" para a média de notas caso nenhum livro tenha sido avaliado', () => {
+        useShelf.mockReturnValue({ estante: [{ titulo: 'Livro 1', statusLeitura: 'LENDO' }] });
+        render(<StatisticsView />);
+        
+        expect(screen.getByText('Média de Notas: N/A')).toBeInTheDocument();
+    });
 });

@@ -12,11 +12,9 @@ export default function ListDetailsView() {
     const [modoReordenacao, setModoReordenacao] = useState(false);
     const [livrosLocais, setLivrosLocais] = useState([]);
 
-    // Referências para o Drag and Drop
     const dragItem = useRef(null);
     const dragOverItem = useRef(null);
 
-    // Se a lista não for encontrada
     if (!listaOriginal) {
         return (
             <main className="list-details-view">
@@ -41,7 +39,6 @@ export default function ListDetailsView() {
         setModoReordenacao(false);
     };
 
-    // Lógica do Drag and Drop
     const handleDragStart = (index) => {
         dragItem.current = index;
     };

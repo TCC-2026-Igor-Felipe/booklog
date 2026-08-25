@@ -129,7 +129,19 @@ describe('Hook: useShelf', () => {
         expect(totalFavoritos).toBe(5);
         expect(alertMock).toHaveBeenCalledWith('Você pode ter no máximo 5 livros favoritos.');
         
-        // Limpa o mock após o teste
         alertMock.mockRestore();
+    });
+
+    it('deve carregar a estante do localStorage ao inicializar', () => {
+        window.localStorage.setItem('booklog_estante', JSON.stringify([{ titulo: 'Fundação' }]));
+        const { result } = renderHook(() => useShelf());
+        expect(result.current.estante).toHaveLength(1);
+        expect(result.current.estante[0].titulo).toBe('Fundação');
+    });
+
+    it('não deve fazer nada se alternarFavorito for chamado com um livro inexistente', () => {
+        const { result } = renderHook(() => useShelf());
+        act(() => { result.current.alternarFavorito('Livro Fantasma'); });
+        expect(result.current.estante).toEqual([]);
     });
 });

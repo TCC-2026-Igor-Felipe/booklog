@@ -1,6 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import ShelfView from './ShelfView';
+import useShelf from '../../hooks/useShelf/useShelf';
+
+vi.mock('../../hooks/useShelf/useShelf');
 
 describe('View: ShelfView', () => {
     it('deve renderizar o título da estante e os livros guardados', () => {
@@ -8,13 +11,24 @@ describe('View: ShelfView', () => {
             { titulo: 'O Hobbit', autor: 'J.R.R. Tolkien', genero: 'Fantasia', statusLeitura: 'LENDO', capaUrl: 'https://placehold.co/625x1000' },
             { titulo: '1984', autor: 'George Orwell', genero: 'Ficção', statusLeitura: 'QUERO_LER', capaUrl: 'https://placehold.co/625x1000' }
         ];
-
+        useShelf.mockReturnValue({ estante: [] });
         render(<ShelfView livrosGuardados={mockLivrosEstante} />);
-
         const tituloPrincipal = screen.getByRole('heading', { name: /minha estante/i, level: 2 });
-
         expect(tituloPrincipal).toBeInTheDocument();
         expect(screen.getByText('O Hobbit')).toBeInTheDocument();
         expect(screen.getByText('1984')).toBeInTheDocument();
+    });
+
+    it('deve exibir mensagem de estante vazia quando não houver livros', () => {
+        useShelf.mockReturnValue({ estante: [] });
+        render(<ShelfView livrosGuardados={[]} />);
+        const mensagemVazia = screen.getByText(/Sua estante está vazia/i);
+        expect(mensagemVazia).toBeInTheDocument();
+    });
+
+    it('deve renderizar a estante proveniente do hook caso a prop livrosGuardados não seja fornecida', () => {
+        useShelf.mockReturnValue({ estante: [{ titulo: 'Neuromancer', capaUrl: 'url' }] });
+        render(<ShelfView />);
+        expect(screen.getByText('Neuromancer')).toBeInTheDocument();
     });
 });
