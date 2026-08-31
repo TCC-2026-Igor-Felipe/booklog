@@ -126,4 +126,18 @@ describe('Componente: BookCard', () => {
     expect(mockAdicionarLivroNaLista).toHaveBeenCalledWith('1', mockLivro);
     expect(window.alert).toHaveBeenCalledWith('Livro adicionado à lista com sucesso!');
   });
+
+  it('não deve exibir os botões de ação quando a propriedade hideActions for verdadeira', () => {
+    useShelf.mockReturnValue({
+      estante: [{ ...mockLivro, statusLeitura: 'LIDO', favorito: true }],
+      adicionarLivro: mockAdicionarLivro,
+      removerLivro: mockRemoverLivro,
+      alternarFavorito: mockAlternarFavorito
+    });
+
+    render(<BookCard livro={mockLivro} hideActions={true} />);
+    
+    expect(screen.queryByTitle('Favoritar obra')).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: '...' })).not.toBeInTheDocument();
+  });
 });
