@@ -4,32 +4,27 @@ hide circle
 skinparam classAttributeIconSize 0
 
 class Usuario {
-  - nome: String
-  - email: String
-  - fotoUrl: String
-  + atualizarPerfil(): void
+  nome
+  email
+  fotoUrl
 }
 
 class Livro {
-  - titulo: String
-  - autor: String
-  - genero: String
-  - anoPublicacao: Integer
-  - totalPaginas: Integer
-  - capaUrl: String
+  titulo
+  autor
+  genero
+  anoPublicacao
+  totalPaginas
+  capaUrl
 }
 
 class UsuarioLivro {
-  - dataInicio: Date
-  - dataConclusao: Date
-  - paginasLidas: Integer
-  - notaAvaliacao: Integer
-  - resenhaTextual: String
-  - favorito: Boolean
-  + atualizarStatus(novoStatus: StatusLeitura): void
-  + registrarProgresso(paginas: Integer): void
-  + avaliarObra(nota: Integer, resenha: String): void
-  + alternarFavorito(): void
+  dataInicio
+  dataConclusao
+  paginasLidas
+  notaAvaliacao
+  resenhaTextual
+  favorito
 }
 
 enum StatusLeitura {
@@ -40,11 +35,8 @@ enum StatusLeitura {
 }
 
 class ListaPersonalizada {
-  - titulo: String
-  - descricao: String
-  + adicionarLivro(livro: Livro): void
-  + removerLivro(livro: Livro): void
-  + reordenarLivro(indexAtual: Integer, novoIndex: Integer): void
+  titulo
+  descricao
 }
 
 Usuario "1" --> "0..*" UsuarioLivro : realiza
@@ -52,4 +44,5 @@ Livro "1" <-- "0..*" UsuarioLivro : recebe
 UsuarioLivro *-right-> StatusLeitura
 Usuario "1" --> "0..*" ListaPersonalizada : gerencia
 ListaPersonalizada "0..*" o--> "0..*" Livro : contem
+
 @enduml
