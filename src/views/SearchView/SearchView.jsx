@@ -22,8 +22,10 @@ export default function SearchView({ resultados = [] }) {
 
   return (
     <main>
-      <SearchBar onSearch={setTermoBusca} />
-      <FilterBar onFilterChange={lidarComFiltro} />
+      <div className="search-controls">
+        <SearchBar onSearch={setTermoBusca} />
+        <FilterBar onFilterChange={lidarComFiltro} />
+      </div>
       
       <div className="resultados-lista">
         {livrosFiltrados.length > 0 ? (
