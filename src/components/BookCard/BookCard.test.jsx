@@ -23,19 +23,16 @@ describe('Componente: BookCard', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    
     useShelf.mockReturnValue({
       estante: [],
       adicionarLivro: mockAdicionarLivro,
       removerLivro: mockRemoverLivro,
       alternarFavorito: mockAlternarFavorito
     });
-
     useCustomLists.mockReturnValue({
       listas: [{ id: '1', titulo: 'Minha Lista de Fantasia' }],
       adicionarLivroNaLista: mockAdicionarLivroNaLista
     });
-
     vi.spyOn(window, 'alert').mockImplementation(() => {});
   });
 
@@ -51,22 +48,18 @@ describe('Componente: BookCard', () => {
 
   it('deve exibir o botão "+" quando o livro não estiver na estante (sem status)', () => {
     render(<BookCard livro={mockLivro} />);
-    const botaoAdicionar = screen.getByRole('button', { name: '+' });
-    expect(botaoAdicionar).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '+' })).toBeInTheDocument();
   });
 
   it('deve exibir o botão "..." quando o livro já estiver na estante (com status)', () => {
     useShelf.mockReturnValue({
-       estante: [{ ...mockLivro, statusLeitura: 'LENDO' }],
-       adicionarLivro: mockAdicionarLivro,
-       removerLivro: mockRemoverLivro,
-       alternarFavorito: mockAlternarFavorito
-     });
-         
+      estante: [{ ...mockLivro, statusLeitura: 'LENDO' }],
+      adicionarLivro: mockAdicionarLivro,
+      removerLivro: mockRemoverLivro,
+      alternarFavorito: mockAlternarFavorito
+    });
     render(<BookCard livro={mockLivro} />);
-         
-    const botaoAtualizar = screen.getByRole('button', { name: '...' });
-    expect(botaoAtualizar).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '...' })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: '+' })).not.toBeInTheDocument();
   });
 
@@ -77,22 +70,26 @@ describe('Componente: BookCard', () => {
       removerLivro: mockRemoverLivro,
       alternarFavorito: mockAlternarFavorito
     });
-    
     render(<BookCard livro={mockLivro} />);
-    
-    const btnFavorito = screen.getByTitle('Favoritar obra');
-    fireEvent.click(btnFavorito);
-    
+    fireEvent.click(screen.getByTitle('Favoritar obra'));
     expect(mockAlternarFavorito).toHaveBeenCalledWith('O Nome do Vento');
+  });
+
+  it('deve exibir o ícone de coração preenchido quando o livro for favorito', () => {
+    useShelf.mockReturnValue({
+      estante: [{ ...mockLivro, statusLeitura: 'LIDO', favorito: true }],
+      adicionarLivro: mockAdicionarLivro,
+      removerLivro: mockRemoverLivro,
+      alternarFavorito: mockAlternarFavorito
+    });
+    render(<BookCard livro={mockLivro} />);
+    expect(screen.getByText('❤️')).toBeInTheDocument();
   });
 
   it('deve salvar as alterações de status fechando o modal corretamente', () => {
     render(<BookCard livro={mockLivro} />);
-    
     fireEvent.click(screen.getByRole('button', { name: '+' }));
-    
     fireEvent.click(screen.getByRole('button', { name: /salvar/i }));
-    
     expect(mockAdicionarLivro).toHaveBeenCalledWith(mockLivro, expect.any(Object));
   });
 
@@ -103,26 +100,17 @@ describe('Componente: BookCard', () => {
       removerLivro: mockRemoverLivro,
       alternarFavorito: mockAlternarFavorito
     });
-    
     render(<BookCard livro={mockLivro} />);
-    
     fireEvent.click(screen.getByRole('button', { name: '...' }));
-    
     fireEvent.click(screen.getByTitle('Excluir da estante'));
-    
     expect(mockRemoverLivro).toHaveBeenCalledWith('O Nome do Vento');
   });
 
   it('deve adicionar um livro a uma lista customizada através do modal', () => {
     render(<BookCard livro={mockLivro} />);
-    
     fireEvent.click(screen.getByRole('button', { name: '+' }));
-
-    const selectListas = screen.getByLabelText(/Adicionar à Lista:/i);
-    fireEvent.change(selectListas, { target: { value: '1' } });
-    
+    fireEvent.change(screen.getByLabelText(/Adicionar à Lista:/i), { target: { value: '1' } });
     fireEvent.click(screen.getByTitle('Adicionar livro à lista'));
-
     expect(mockAdicionarLivroNaLista).toHaveBeenCalledWith('1', mockLivro);
     expect(window.alert).toHaveBeenCalledWith('Livro adicionado à lista com sucesso!');
   });
@@ -134,9 +122,7 @@ describe('Componente: BookCard', () => {
       removerLivro: mockRemoverLivro,
       alternarFavorito: mockAlternarFavorito
     });
-
     render(<BookCard livro={mockLivro} hideActions={true} />);
-    
     expect(screen.queryByTitle('Favoritar obra')).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: '...' })).not.toBeInTheDocument();
   });

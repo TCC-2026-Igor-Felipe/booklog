@@ -4,10 +4,9 @@ import useShelf from '../../hooks/useShelf/useShelf';
 import useCustomLists from '../../hooks/useCustomLists/useCustomLists';
 import './BookCard.css';
 
-export default function BookCard({ livro }) {
+export default function BookCard({ livro, hideActions = false }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { estante, adicionarLivro, removerLivro, alternarFavorito } = useShelf();
-
   const { listas, adicionarLivroNaLista } = useCustomLists();
 
   const livroNaEstante = estante.find((item) => item.titulo === livro.titulo);
@@ -30,14 +29,13 @@ export default function BookCard({ livro }) {
   return (
     <div className="book-card">
       <img src={livro.capaUrl} alt={`Capa do livro ${livro.titulo}`} />
-
       <div className="book-info">
         <h3>{livro.titulo}</h3>
         <p>{livro.autor}</p>
         <p>{livro.genero} - {livro.ano}</p>
       </div>
 
-      {estaNaEstante && (
+      {!hideActions && estaNaEstante && (
         <button
           className="favorite-button"
           onClick={() => alternarFavorito(livro.titulo)}
@@ -47,9 +45,11 @@ export default function BookCard({ livro }) {
         </button>
       )}
 
-      <button className="status-button" onClick={() => setIsModalOpen(true)}>
-        {estaNaEstante ? '...' : '+'}
-      </button>
+      {!hideActions && (
+        <button className="status-button" onClick={() => setIsModalOpen(true)}>
+          {estaNaEstante ? '...' : '+'}
+        </button>
+      )}
 
       <StatusModal
         livro={livroParaOModal}
