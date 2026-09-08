@@ -8,8 +8,22 @@
   --danger-color: #ff4040;
   --border-color: #2c3440;
   --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-
   --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body.light-mode {
+  --bg-color: #f4f6f8;
+  --surface-color: #ffffff;
+  --text-main: #4a5568;
+  --text-title: #1a202c;
+  --accent-color: #0077b6;
+  --accent-hover: #005f8e;
+  --danger-color: #e53e3e;
+  --border-color: #e2e8f0;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 * {
