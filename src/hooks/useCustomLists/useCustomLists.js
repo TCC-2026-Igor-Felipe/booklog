@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function useCustomLists() {
     const [listas, setListas] = useState(() => {
@@ -6,27 +6,33 @@ export default function useCustomLists() {
         return listasSalvas ? JSON.parse(listasSalvas) : [];
     });
 
+    const obterListasAtuais = () => {
+        return JSON.parse(window.localStorage.getItem('booklog_listas') || '[]');
+    };
+
     const salvarListas = (novasListas) => {
-        setListas(novasListas);
         window.localStorage.setItem('booklog_listas', JSON.stringify(novasListas));
+        setListas(novasListas);
+        window.dispatchEvent(new Event('booklog_listas_atualizadas'));
     };
 
     const criarLista = (titulo, descricao) => {
+        const listasAtuais = obterListasAtuais();
         const novaLista = {
             id: Date.now().toString(),
             titulo,
             descricao,
             livros: []
         };
-        salvarListas([...listas, novaLista]);
+        salvarListas([...listasAtuais, novaLista]);
     };
 
     const adicionarLivroNaLista = (idLista, livro) => {
-        const novasListas = listas.map((lista) => {
+        const listasAtuais = obterListasAtuais();
+        const novasListas = listasAtuais.map((lista) => {
             if (lista.id === idLista) {
                 const jaExiste = lista.livros.find((l) => l.titulo === livro.titulo);
                 if (jaExiste) return lista;
-
                 return { ...lista, livros: [...lista.livros, livro] };
             }
             return lista;
@@ -35,7 +41,8 @@ export default function useCustomLists() {
     };
 
     const removerLivroDaLista = (idLista, tituloLivro) => {
-        const novasListas = listas.map((lista) => {
+        const listasAtuais = obterListasAtuais();
+        const novasListas = listasAtuais.map((lista) => {
             if (lista.id === idLista) {
                 return {
                     ...lista,
@@ -48,12 +55,14 @@ export default function useCustomLists() {
     };
 
     const removerLista = (idLista) => {
-        const novasListas = listas.filter((lista) => lista.id !== idLista);
+        const listasAtuais = obterListasAtuais();
+        const novasListas = listasAtuais.filter((lista) => lista.id !== idLista);
         salvarListas(novasListas);
     };
 
     const atualizarLivrosDaLista = (idLista, novosLivros) => {
-        const novasListas = listas.map((lista) => {
+        const listasAtuais = obterListasAtuais();
+        const novasListas = listasAtuais.map((lista) => {
             if (lista.id === idLista) {
                 return { ...lista, livros: novosLivros };
             }
@@ -61,6 +70,16 @@ export default function useCustomLists() {
         });
         salvarListas(novasListas);
     };
+
+    useEffect(() => {
+        const sincronizarListas = () => {
+            const listasSalvas = window.localStorage.getItem('booklog_listas');
+            setListas(listasSalvas ? JSON.parse(listasSalvas) : []);
+        };
+
+        window.addEventListener('booklog_listas_atualizadas', sincronizarListas);
+        return () => window.removeEventListener('booklog_listas_atualizadas', sincronizarListas);
+    }, []);
 
     return {
         listas,

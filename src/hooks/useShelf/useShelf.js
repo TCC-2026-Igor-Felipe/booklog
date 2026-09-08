@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function useShelf() {
     const [estante, setEstante] = useState(() => {
@@ -7,63 +7,68 @@ export default function useShelf() {
     });
 
     const adicionarLivro = (livro, dadosAtualizacao) => {
-        setEstante((estanteAnterior) => {
-            const indexLivroExistente = estanteAnterior.findIndex(
-                (item) => item.titulo === livro.titulo
-            );
+        const estanteAtual = JSON.parse(window.localStorage.getItem('booklog_estante') || '[]');
+        const indexLivroExistente = estanteAtual.findIndex((item) => item.titulo === livro.titulo);
 
-            let novaEstante;
+        if (indexLivroExistente >= 0) {
+            estanteAtual[indexLivroExistente] = {
+                ...estanteAtual[indexLivroExistente],
+                ...dadosAtualizacao,
+            };
+        } else {
+            const novoLivroComStatus = { ...livro, ...dadosAtualizacao };
+            estanteAtual.push(novoLivroComStatus);
+        }
 
-            if (indexLivroExistente >= 0) {
-                novaEstante = [...estanteAnterior];
-                novaEstante[indexLivroExistente] = {
-                    ...novaEstante[indexLivroExistente],
-                    ...dadosAtualizacao,
-                };
-            } else {
-                const novoLivroComStatus = { ...livro, ...dadosAtualizacao };
-                novaEstante = [...estanteAnterior, novoLivroComStatus];
-            }
-
-            window.localStorage.setItem('booklog_estante', JSON.stringify(novaEstante));
-            return novaEstante;
-        });
+        window.localStorage.setItem('booklog_estante', JSON.stringify(estanteAtual));
+        setEstante(estanteAtual);
+        window.dispatchEvent(new Event('booklog_estante_atualizada'));
     };
 
     const removerLivro = (titulo) => {
-        setEstante((estanteAnterior) => {
-            const novaEstante = estanteAnterior.filter((item) => item.titulo !== titulo);
-            window.localStorage.setItem('booklog_estante', JSON.stringify(novaEstante));
-            return novaEstante;
-        });
+        const estanteAtual = JSON.parse(window.localStorage.getItem('booklog_estante') || '[]');
+        const novaEstante = estanteAtual.filter((item) => item.titulo !== titulo);
+
+        window.localStorage.setItem('booklog_estante', JSON.stringify(novaEstante));
+        setEstante(novaEstante);
+        window.dispatchEvent(new Event('booklog_estante_atualizada'));
     };
 
     const alternarFavorito = (titulo) => {
-        setEstante((estanteAnterior) => {
-            const livroAlvo = estanteAnterior.find((item) => item.titulo === titulo);
+        const estanteAtual = JSON.parse(window.localStorage.getItem('booklog_estante') || '[]');
+        const livroAlvo = estanteAtual.find((item) => item.titulo === titulo);
 
-            if (!livroAlvo) return estanteAnterior;
+        if (!livroAlvo) return;
 
-            if (!livroAlvo.favorito) {
-                const totalFavoritos = estanteAnterior.filter((item) => item.favorito).length;
-                
-                if (totalFavoritos >= 5) {
-                    window.alert('Você pode ter no máximo 5 livros favoritos.');
-                    return estanteAnterior;
-                }
+        if (!livroAlvo.favorito) {
+            const totalFavoritos = estanteAtual.filter((item) => item.favorito).length;
+            if (totalFavoritos >= 5) {
+                window.alert('Você pode ter no máximo 5 livros favoritos.');
+                return;
             }
+        }
 
-            const novaEstante = estanteAnterior.map((item) => {
-                if (item.titulo === titulo) {
-                    return { ...item, favorito: !item.favorito };
-                }
-                return item;
-            });
-            
-            window.localStorage.setItem('booklog_estante', JSON.stringify(novaEstante));
-            return novaEstante;
+        const novaEstante = estanteAtual.map((item) => {
+            if (item.titulo === titulo) {
+                return { ...item, favorito: !item.favorito };
+            }
+            return item;
         });
+
+        window.localStorage.setItem('booklog_estante', JSON.stringify(novaEstante));
+        setEstante(novaEstante);
+        window.dispatchEvent(new Event('booklog_estante_atualizada'));
     };
+
+    useEffect(() => {
+        const sincronizarEstante = () => {
+            const estanteSalva = window.localStorage.getItem('booklog_estante');
+            setEstante(estanteSalva ? JSON.parse(estanteSalva) : []);
+        };
+
+        window.addEventListener('booklog_estante_atualizada', sincronizarEstante);
+        return () => window.removeEventListener('booklog_estante_atualizada', sincronizarEstante);
+    }, []);
 
     return {
         estante,
