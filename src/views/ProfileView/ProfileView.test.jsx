@@ -14,7 +14,7 @@ describe('View: ProfileView', () => {
   it('deve renderizar o cabeçalho do perfil com nome padrão, foto e título inicial', () => {
     useShelf.mockReturnValue({ estante: [] });
     render(<ProfileView />);
-    expect(screen.getByRole('heading', { name: /Igor Felipe/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Usuário/i })).toBeInTheDocument();
     expect(screen.getByText(/Leitor\(a\) Iniciante • 0 obras na estante/i)).toBeInTheDocument();
   });
 
@@ -54,7 +54,7 @@ describe('View: ProfileView', () => {
     fireEvent.click(screen.getByTitle('Editar Perfil'));
     fireEvent.change(screen.getByPlaceholderText('Seu Nome'), { target: { value: 'Nome Cancelado' } });
     fireEvent.click(screen.getByRole('button', { name: /Cancelar/i }));
-    expect(screen.getByRole('heading', { name: /Igor Felipe/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Usuário/i })).toBeInTheDocument();
   });
 
   it('deve renderizar os favoritos, diário recente e acumular o autor mais lido perfeitamente', () => {

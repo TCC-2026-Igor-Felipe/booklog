@@ -115,7 +115,7 @@ describe('View: ListDetailsView', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /Salvar/i }));
     
-    expect(mockAtualizar).toHaveBeenCalledWith('1', mockLivros); // Ordem inalterada
+    expect(mockAtualizar).toHaveBeenCalledWith('1', mockLivros);
   });
 
   it('deve manter o botão Reordenar desabilitado se a lista tiver menos de 2 livros', () => {

@@ -73,7 +73,7 @@ describe('View: CustomListView', () => {
     });
 
     it('deve renderizar a mensagem de lista vazia caso a lista seja malformada (sem a propriedade livros)', () => {
-        setupMocks([{ id: '99', titulo: 'Lista Quebrada', descricao: '' }]); // Faltando array de livros
+        setupMocks([{ id: '99', titulo: 'Lista Quebrada', descricao: '' }]);
         renderView();
         
         expect(screen.getByText('Nenhum livro adicionado ainda.')).toBeInTheDocument();

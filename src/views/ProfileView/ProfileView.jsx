@@ -7,7 +7,7 @@ export default function ProfileView() {
   const { estante } = useShelf();
   const livrosFavoritos = estante.filter((livro) => livro.favorito);
 
-  const [nome, setNome] = useState(() => window.localStorage.getItem('booklog_nome') || 'Igor Felipe');
+  const [nome, setNome] = useState(() => window.localStorage.getItem('booklog_nome') || 'Usuário');
   const [isEditing, setIsEditing] = useState(false);
 
   const fotoPadrao = `https://ui-avatars.com/api/?name=${encodeURIComponent(nome)}&background=00b0fa&color=fff&size=128`;
@@ -19,7 +19,7 @@ export default function ProfileView() {
   };
 
   const cancelarEdicao = () => {
-    setNome(window.localStorage.getItem('booklog_nome') || 'Igor Felipe');
+    setNome(window.localStorage.getItem('booklog_nome') || 'Usuário');
     setIsEditing(false);
   };
 

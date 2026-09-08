@@ -24,7 +24,7 @@ describe('View: StatisticsView', () => {
     render(<StatisticsView />);
     
     expect(screen.getByText('Total na Estante: 5')).toBeInTheDocument();
-    expect(screen.getByText('Autor B')).toBeInTheDocument(); // Autor B é o vencedor com 2 livros
+    expect(screen.getByText('Autor B')).toBeInTheDocument();
   });
 
   it('deve exibir "N/A" para métricas vazias', () => {

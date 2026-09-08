@@ -39,7 +39,7 @@ describe('SearchView Component', () => {
         fireEvent.change(searchInput, { target: { value: '1984' } });
         
         expect(screen.getByText('1984')).toBeInTheDocument();
-        expect(screen.queryByText('Duna')).not.toBeInTheDocument(); // Duna deve sumir
+        expect(screen.queryByText('Duna')).not.toBeInTheDocument();
     });
 
     it('deve filtrar a lista de livros ao selecionar um gênero', () => {
